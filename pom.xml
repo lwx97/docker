@@ -62,13 +62,13 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.58</version>
         </dependency>
-
+        <!-- HttpClient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>4.5.3</version>
         </dependency>
-
+        <!-- maven api -->
         <dependency>
             <groupId>org.apache.maven.shared</groupId>
             <artifactId>maven-invoker</artifactId>
