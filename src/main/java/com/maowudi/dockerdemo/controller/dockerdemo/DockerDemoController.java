@@ -3,6 +3,8 @@ package com.maowudi.dockerdemo.controller.dockerdemo;
 import com.maowudi.dockerdemo.controller.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,24 +15,30 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.Objects;
 
 @RestController
 public class DockerDemoController extends BaseController {
 
     private Logger log = LoggerFactory.getLogger(DockerDemoController.class);
 
-    private String linuxPath = "/root/dockerfiledome/";
+    @Value("${dockertest.linuxPath}")
+    private String linuxPath;
+
 
     @RequestMapping("/hello")
     public String hello(@RequestParam(required = false) String name) {
         if (name != null) {
-            return "hello " + name;
+            return successRespMsg("hello " + name);
         }
-        return "hello world";
+        return successRespMsg("hello world!");
     }
 
     @RequestMapping("/uploadDockerfileGz")
-    public String uploadDockerfileGz(@RequestParam("file")MultipartFile file) {
+    public String uploadDockerfileGz(@RequestParam("file")MultipartFile file,@RequestParam(value = "tag",required = false) String tag) {
+        if(tag==null) {
+            tag = "test-java";
+        }
         try {
             if(file.isEmpty()){
                 throw new RuntimeException("文件为空！");
@@ -39,39 +47,59 @@ public class DockerDemoController extends BaseController {
             String suffx = filename.substring(filename.lastIndexOf("."));
             log.info("上传文件：{}",filename);
             //每次都是新的文件目录
-            String time = new Date().getTime() + "";
+            String time = new Date().getTime() + "/";
             String path = linuxPath + time + filename;
             File newFile = new File(path);
-            if(newFile.getParentFile().exists()){
+            if(!newFile.getParentFile().exists()){
                 newFile.getParentFile().mkdirs();
             }
             //写入文件
             file.transferTo(newFile);
-            return buildImages(path,filename,"javaTest");
+            return successRespMsg(buildImages(linuxPath + time,filename,tag));
         } catch (IOException e) {
             e.printStackTrace();
+            return errorRespMsg("上传文件出错！");
         }
-        return "error!!!!!";
     }
 
-    @RequestMapping("/dockertest")
-    public String dockertest(){
-       return buildImages("/root/dockerfiledome/","dockerfile.tar.gz","ttttt");
+    @RequestMapping("/dockertest/{info}")
+    public String dockertest(@PathVariable(required = false) String info){
+        if(info==null || Objects.equals("lwx",info)){
+            return "请补充info信息";
+        }
+       return successRespMsg(buildImages(linuxPath,"dockerfile.tar.gz","java-test"));
     }
 
+    /**
+     * 构建镜像
+     * @param path
+     * @param filename
+     * @param tag
+     * @return
+     */
     public String buildImages(String path,String filename,String tag){
         //curl POST -H "Content-Type:application/tar" --data-binary '@dockerfile.tar.gz' http://localhost:2375/build?t=samplerepo
+        log.info("--------------cd到上传目录中去---------------------");
         String[] cdCmd = {"cd",path};
-        String s1 = execCurl(cdCmd);
-        log.info("-----------------------------------");
-        System.out.println(s1);
+        execCurl(cdCmd);
+        log.info("---------------开始构建镜像--------------------");
+        long startime = new Date().getTime();
         String[] curlCmd = {"curl", "-X", "POST", "-H", "Content-Type:application/tar", "--data-binary", "@" + filename, "http://localhost:2375/build?t=" + tag};
         String s = execCurl(curlCmd);
-        log.info("-----------------------------------");
-        System.out.println(s);
-        return s;
+        long endtime = new Date().getTime();
+        log.info(s);
+        log.info("---------------构建镜像结束,用时：{}--------------------",endtime-startime);
+        if(s.indexOf("Successfully built")!=-1) {
+            return tag;
+        }
+        return "构建镜像失败！";
     }
 
+    /**
+     * 执行linux命令
+     * @param cmds
+     * @return
+     */
     public static String execCurl(String[] cmds) {
         ProcessBuilder process = new ProcessBuilder(cmds);
         Process p;
