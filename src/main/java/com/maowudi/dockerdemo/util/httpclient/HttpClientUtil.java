@@ -81,8 +81,9 @@ public class HttpClientUtil {
         }
     }
 
+
     public static void main(String[] args) {
-        File file = new File("C:\\Users\\HD\\Desktop\\dockerfile.tar.gz");
-        HttpClientUtil.upload("http://127.0.0.1:80/uploadDockerfileGz?tag=test_aa",file,"dockerfile.tar.gz");
+        File file = new File("C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker\\dockerfile.tar.gz");
+        HttpClientUtil.upload("http://127.0.0.1:80/uploadDockerfileGz?tag=remotedeploytest",file,"dockerfile.tar.gz");
     }
 }

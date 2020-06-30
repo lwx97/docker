@@ -1,15 +1,23 @@
 package com.maowudi.dockerdemo.util.projectbuild;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.maven.model.Model;
+import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.MavenInvocationException;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static ch.qos.logback.core.util.EnvUtil.isWindows;
 
 public class ProjectBuildUtil {
 
@@ -33,7 +41,7 @@ public class ProjectBuildUtil {
         DefaultInvoker invoker = new DefaultInvoker();
         invoker.setMavenHome(new File(getSystemEnv("MAVEN_HOME")));
         try {
-            InvocationResult execute = invoker.execute(request);
+            invoker.execute(request);
         } catch (MavenInvocationException e) {
             e.printStackTrace();
         }
@@ -70,7 +78,44 @@ public class ProjectBuildUtil {
         return map.get(envName);
     }
 
+    /**
+     * 获取本地项目target目录
+     * @return
+     */
+    public static String getLocalProjectTargetPath(){
+        String classPath = ProjectBuildUtil.class.getResource("/").getPath().replace("classes/","");
+        if (isWindows() && classPath.startsWith("/")) {
+            classPath = classPath.substring(1);
+        }
+        System.out.println(classPath);
+        return classPath;
+    }
+
+    /**
+     * 获取本地项目pom model实体
+     * @return
+     */
+    public static Model getLocalProjectPomModel(){
+        MavenXpp3Reader reader = new MavenXpp3Reader();
+        String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        if (isWindows() && basePath.startsWith("/")) {
+            basePath = basePath.substring(1);
+        }
+        if (basePath.indexOf("/target/") != -1) {
+            basePath = basePath.substring(0, basePath.indexOf("/target/"));
+        }
+        Model model = null;
+        try {
+            model = reader.read(new FileReader(new File(basePath + "\\pom.xml")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        }
+        return model;
+    }
+
     public static void main(String[] args) {
-        ProjectBuildUtil.execMavenCmd("clean compile");
+        String localProjectTargetPath = ProjectBuildUtil.getLocalProjectTargetPath();
     }
 }

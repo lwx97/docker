@@ -79,12 +79,9 @@ public class DockerDemoController extends BaseController {
      */
     public String buildImages(String path,String filename,String tag){
         //curl POST -H "Content-Type:application/tar" --data-binary '@dockerfile.tar.gz' http://localhost:2375/build?t=samplerepo
-        log.info("--------------cd到上传目录中去---------------------");
-        String[] cdCmd = {"cd",path};
-        execCurl(cdCmd);
         log.info("---------------开始构建镜像--------------------");
         long startime = new Date().getTime();
-        String[] curlCmd = {"curl", "-X", "POST", "-H", "Content-Type:application/tar", "--data-binary", "@" + filename, "http://localhost:2375/build?t=" + tag};
+        String[] curlCmd = {"curl", "-X", "POST", "-H", "Content-Type:application/tar", "--data-binary", "@"+path+ filename, "http://localhost:2375/build?t=" + tag};
         String s = execCurl(curlCmd);
         long endtime = new Date().getTime();
         log.info(s);
