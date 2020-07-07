@@ -1,6 +1,6 @@
-package com.example.docker.controller.dockerdemo;
+package com.maowudi.docker.controller.docker;
 
-import com.maowudi.dockerdemo.controller.base.BaseController;
+import com.maowudi.docker.controller.base.BaseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

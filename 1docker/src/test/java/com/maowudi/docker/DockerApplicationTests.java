@@ -1,4 +1,4 @@
-package com.example.docker;
+package com.maowudi.docker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

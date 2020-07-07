@@ -1,4 +1,4 @@
-package com.example.docker.vo;
+package com.maowudi.docker.vo;
 
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import lombok.Data;

@@ -1,11 +1,11 @@
-package com.example.docker.remote;
+package com.maowudi.docker.remote;
 
 
-import com.maowudi.dockerdemo.util.docker.DockerService;
-import com.maowudi.dockerdemo.util.httpclient.HttpClientUtil;
-import com.maowudi.dockerdemo.util.projectbuild.ProjectBuildUtil;
-import com.maowudi.dockerdemo.util.targz.TargzUtil;
-import com.maowudi.dockerdemo.vo.DockerCreateContainerResopnse;
+import com.maowudi.docker.util.docker.DockerService;
+import com.maowudi.docker.util.httpclient.HttpClientUtil;
+import com.maowudi.docker.util.projectbuild.ProjectBuildUtil;
+import com.maowudi.docker.util.targz.TargzUtil;
+import com.maowudi.docker.vo.DockerCreateContainerResopnse;
 import org.apache.maven.model.Model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

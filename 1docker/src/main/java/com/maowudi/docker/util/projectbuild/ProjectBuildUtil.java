@@ -1,4 +1,4 @@
-package com.example.docker.util.projectbuild;
+package com.maowudi.docker.util.projectbuild;
 
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;

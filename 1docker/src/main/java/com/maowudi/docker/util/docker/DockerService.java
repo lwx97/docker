@@ -1,4 +1,4 @@
-package com.example.docker.util.docker;
+package com.maowudi.docker.util.docker;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;
@@ -8,7 +8,7 @@ import com.github.dockerjava.api.model.HostConfig;
 import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
-import com.maowudi.dockerdemo.vo.DockerCreateContainerResopnse;
+import com.maowudi.docker.vo.DockerCreateContainerResopnse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
