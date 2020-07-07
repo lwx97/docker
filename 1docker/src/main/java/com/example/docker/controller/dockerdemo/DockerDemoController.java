@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.controller.dockerdemo;
+package com.example.docker.controller.dockerdemo;
 
 import com.maowudi.dockerdemo.controller.base.BaseController;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.controller.base;
+package com.example.docker.controller.base;
 
 import com.alibaba.fastjson.JSONObject;
 

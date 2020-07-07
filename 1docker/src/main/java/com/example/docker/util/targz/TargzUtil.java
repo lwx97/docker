@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.util.targz;
+package com.example.docker.util.targz;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
@@ -7,10 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.zip.GZIPOutputStream;
 
 /**

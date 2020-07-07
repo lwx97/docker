@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.util.httpclient;
+package com.example.docker.util.httpclient;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;

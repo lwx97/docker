@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.util.docker;
+package com.example.docker.util.docker;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;

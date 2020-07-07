@@ -1,4 +1,4 @@
-package com.maowudi.dockerdemo.deploy.remote;
+package com.example.docker.remote;
 
 
 import com.maowudi.dockerdemo.util.docker.DockerService;
