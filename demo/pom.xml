@@ -40,6 +40,13 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <!-- 本地docker服务jar包 -->
+        <dependency>
+            <groupId>com.maowudi</groupId>
+            <artifactId>docker</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

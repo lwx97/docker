@@ -25,7 +25,7 @@ public class RemoteDeploy {
         String gzOutPath = file.getParent() + File.separator + "dockerfile.tar.gz";
         log.info("1.先构建本地项目");
         //1.先构建本地项目
-        ProjectBuildUtil.packageLocalProjectSkipTest();
+        ProjectBuildUtil.packageLocalProjectSkipTest(null);
         //2.获取项目target路径
         String localProjectTargetPath = ProjectBuildUtil.getLocalProjectTargetPath();
         log.info("获取项目target路径:{}", localProjectTargetPath);

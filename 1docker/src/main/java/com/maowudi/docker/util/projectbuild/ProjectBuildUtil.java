@@ -5,15 +5,13 @@ import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.apache.maven.shared.invoker.DefaultInvocationRequest;
 import org.apache.maven.shared.invoker.DefaultInvoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
+import org.codehaus.plexus.util.StringUtils;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ch.qos.logback.core.util.EnvUtil.isWindows;
 
@@ -25,9 +23,12 @@ public class ProjectBuildUtil {
      *
      * @param mvnCmd 多个命令以空格隔开
      */
-    public static void execMavenCmd(String mvnCmd) {
+    public static void execMavenCmd(String mvnCmd,String pomPath) {
+        if(StringUtils.isEmpty(pomPath)){
+            pomPath = "pom.xml";
+        }
         DefaultInvocationRequest request = new DefaultInvocationRequest();
-        request.setPomFile(new File("pom.xml"));
+        request.setPomFile(new File(pomPath));
         List<String> cmdList = Arrays.asList(mvnCmd.trim().split(" "));
         if (cmdList != null || cmdList.size() == 0) {
             if (mvnCmd.length() > 0) {
@@ -49,29 +50,29 @@ public class ProjectBuildUtil {
     /**
      * 构建本地项目
      */
-    public static void buildLocalProject() {
-        execMavenCmd("clean compile");
+    public static void buildLocalProject(String pomPath) {
+        execMavenCmd("clean compile",pomPath);
     }
 
     /**
      * 本地项目打包
      */
-    public static void packageLocalProject() {
-        execMavenCmd("clean package");
+    public static void packageLocalProject(String pomPath) {
+        execMavenCmd("clean package",pomPath);
     }
 
     /**
      * 本地项目打包跳过Test
      */
-    public static void packageLocalProjectSkipTest() {
-        execMavenCmd("clean package -Dmaven.test.skip=true");
+    public static void packageLocalProjectSkipTest(String pomPath) {
+        execMavenCmd("clean package -Dmaven.test.skip=true",pomPath);
     }
 
     /**
      * 将本地项目安装到本地仓库中
      */
-    public static void installLocalProject() {
-        execMavenCmd("clean install");
+    public static void installLocalProject(String pomPath) {
+        execMavenCmd("clean install",pomPath);
     }
 
     /**
