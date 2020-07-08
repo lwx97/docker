@@ -95,14 +95,4 @@ public class CompressFileGZIP {
         }
     }
 
-
-    /**
-     * Sole entry point to the class and application.
-     *
-     * @param args Array of String arguments.
-     */
-    public static void main(String[] args) {
-        String str = "C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker\\dockerfile";
-        doCompressFile(str);
-    }
 }

@@ -174,9 +174,5 @@ public class TargzUtil {
         }
     }
 
-    public static void main(String[] args) {
-//        TargzUtil.compressToTargz("C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker","C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker\\docker.tar.gz");
-        TargzUtil.compressToTargz("C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker");
-    }
 
 }

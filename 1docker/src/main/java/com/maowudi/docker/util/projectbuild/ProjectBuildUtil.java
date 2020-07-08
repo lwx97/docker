@@ -125,7 +125,5 @@ public class ProjectBuildUtil {
         return model;
     }
 
-    public static void main(String[] args) {
-        String localProjectTargetPath = ProjectBuildUtil.getLocalProjectTargetPath();
-    }
+
 }

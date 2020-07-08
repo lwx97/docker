@@ -61,12 +61,10 @@ public class RemoteDeploy {
     public static void autoDeploy(String dockerfilePath, int port) {
         String tagx = UUID.randomUUID().toString().replace("-", "");
         String tag = "liwenx97/lwx:" + tagx.substring(0, 7);
-        String containerName = "remote_" + tagx.substring(7, 7);
+        String containerName = "remote_" + tagx.substring(0, 7);
         autoDeploy(dockerfilePath, tag, containerName, port);
     }
 
-    public static void main(String[] args) {
-        autoDeploy("C:\\Users\\HD\\IdeaProjects\\docker\\src\\main\\docker\\dockerfile", 8080);
-    }
+
 
 }

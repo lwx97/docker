@@ -103,12 +103,6 @@ public class DockerService {
 
     }
 
-    public static void main(String[] args) {
-        DockerService dockerService = new DockerService();
-        dockerService.connectDocker();
-        DockerCreateContainerResopnse test1111 = dockerService.createContainer("liwenx97/lwx:537abe2", "test", 8080);
-        System.out.println(test1111);
-    }
 
     /**
      * 启动指定的容器
