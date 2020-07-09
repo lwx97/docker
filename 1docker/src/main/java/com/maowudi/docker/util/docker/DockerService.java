@@ -9,6 +9,7 @@ import com.github.dockerjava.api.model.Info;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.maowudi.docker.vo.DockerCreateContainerResopnse;
+import org.codehaus.plexus.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,31 +21,49 @@ public class DockerService {
 
     private Logger log = LoggerFactory.getLogger(DockerService.class);
     private DockerClient dockerClient;
+    private Info info;
+    private String aliyunDockerTcp;
 
-    private String aliyunDockerTcp = "tcp://39.105.134.3:2375";
+
+    public DockerService(String aliyunDockerTcp){
+        if(StringUtils.isEmpty(aliyunDockerTcp)){
+            throw new RuntimeException("aliyunDockerTcp is null!");
+        }
+        this.aliyunDockerTcp = aliyunDockerTcp;
+        connectDocker();
+    }
 
     /**
      * 连接默认的docker 得到docker客户端
      *
      * @return
      */
-    public DockerClient connectDocker() {
-        return connectDocker(aliyunDockerTcp);
+    public void connectDocker() {
+        connectDocker(aliyunDockerTcp);
     }
-
 
     /**
      * 连接指定的docker 得到docker客户端
      *
      * @return
      */
-    public DockerClient connectDocker(String tcp) {
+    public void connectDocker(String tcp) {
+        if(dockerClient!=null) {
+            log.info("当前已连接！");
+        }
         dockerClient = DockerClientBuilder.getInstance(tcp).build();
-        Info exec = dockerClient.infoCmd().exec();
-        String info = JSONObject.toJSONString(exec);
+        info = dockerClient.infoCmd().exec();
+        String infoStr = JSONObject.toJSONString(info);
         log.info("当前登录docker信息：");
-        log.info("info:{}", info);
-        return dockerClient;
+        log.info("info:{}", infoStr);
+    }
+
+    /**
+     * 获取登陆信息
+     * @return
+     */
+    public Info getInfo(){
+        return this.info;
     }
 
     /**

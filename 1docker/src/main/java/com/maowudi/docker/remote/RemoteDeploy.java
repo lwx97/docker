@@ -20,12 +20,12 @@ public class RemoteDeploy {
 
     private final static Logger log = LoggerFactory.getLogger(RemoteDeploy.class);
 
-    public static void autoDeploy(String dockerfilePath, String tag, String containerName, int port) {
+    public static void autoDeploy(String aliyunDockerTcp,String dockerfilePath, String tag, String containerName, int port,String pomPath) {
         File file = new File(dockerfilePath);
         String gzOutPath = file.getParent() + File.separator + "dockerfile.tar.gz";
         log.info("1.先构建本地项目");
         //1.先构建本地项目
-        ProjectBuildUtil.packageLocalProjectSkipTest(null);
+        ProjectBuildUtil.packageLocalProjectSkipTest(pomPath);
         //2.获取项目target路径
         String localProjectTargetPath = ProjectBuildUtil.getLocalProjectTargetPath();
         log.info("获取项目target路径:{}", localProjectTargetPath);
@@ -48,7 +48,7 @@ public class RemoteDeploy {
         //6.通过镜像TAG 创建容器启动
         log.info("构建镜像成功！");
         log.info("镜像tag:{}", tag);
-        DockerService dockerService = new DockerService();
+        DockerService dockerService = new DockerService(aliyunDockerTcp);
         dockerService.connectDocker();
         log.info("开始创建容器");
         DockerCreateContainerResopnse remotetest = dockerService.createContainer(tag, containerName, port);
@@ -58,11 +58,12 @@ public class RemoteDeploy {
         log.info("容器启动成功！暴露端口：{}", remotetest.getBindPort());
     }
 
-    public static void autoDeploy(String dockerfilePath, int port) {
+    public static void autoDeploy(String aliyunDockerTcp,String dockerfilePath, int port) {
+        //"tcp://39.105.134.3:2375"
         String tagx = UUID.randomUUID().toString().replace("-", "");
         String tag = "liwenx97/lwx:" + tagx.substring(0, 7);
         String containerName = "remote_" + tagx.substring(0, 7);
-        autoDeploy(dockerfilePath, tag, containerName, port);
+        autoDeploy(aliyunDockerTcp,dockerfilePath, tag, containerName, port,null);
     }
 
 
